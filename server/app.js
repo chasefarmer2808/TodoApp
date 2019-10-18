@@ -29,6 +29,17 @@ app.post('/todo', (req, res) => {
     })
 });
 
+app.put('/todo', (req, res) => {
+    updateTodo(req.body['data'], (success) => {
+        if (success) {
+            res.sendStatus(200);
+        }
+        else {
+            res.sendStatus(500);
+        }
+    });
+});
+
 app.delete('/todo/:id', (req, res) => {
     deleteTodo(req.params['id'], (success) => {
         if (success) {
@@ -46,14 +57,24 @@ function addTodo(todoObj, callback) {
     fs.readFile('todos.json', (err, json) => {
         var todos = JSON.parse(json);
         todoObj['id'] = uniqid();
+        todoObj['isDone'] = false;
         todos.push(todoObj);
-        fs.writeFile('todos.json', JSON.stringify(todos), err => {
-            if (err) {
-                callback(false);
-            }
-            callback(true);
-        });
+        commitTodos(todos, callback);
     });
+}
+
+function updateTodo(todoObj, callback) {
+    fs.readFile('todos.json', (err, json) => {
+        var todos = JSON.parse(json);
+
+        for (var i = 0; i < todos.length; i++) {
+            if (todos[i]['id'] == todoObj['id']) {
+                todos[i] = todoObj;
+            }
+        }
+
+        commitTodos(todos, callback);
+    })
 }
 
 function deleteTodo(todoId, callback) {
@@ -65,11 +86,15 @@ function deleteTodo(todoId, callback) {
                 todos.splice(i, 1);
             }
         }
-        fs.writeFile('todos.json', JSON.stringify(todos), err => {
-            if (err) {
-                callback(false);
-            }
-            callback(true);
-        });
+        commitTodos(todos, callback);
     })
+}
+
+function commitTodos(todoJson, callback) {
+    fs.writeFile('todos.json', JSON.stringify(todoJson), err => {
+        if (err) {
+            callback(false);
+        }
+        callback(true);
+    });
 }
