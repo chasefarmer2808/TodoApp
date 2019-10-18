@@ -14,3 +14,15 @@
 #todo-header {
     border-bottom: 1px solid gray;
 }
+
+#todo-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 8px;
+}
+
+#todo-name {
+    margin-left: 8px;
+    font-size: 24px;
+}
