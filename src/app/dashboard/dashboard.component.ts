@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { TodoService } from 'src/app/services/todo/todo.service';
 import { Todo } from 'src/app/services/todo/todo';
 
@@ -9,14 +10,12 @@ import { Todo } from 'src/app/services/todo/todo';
 })
 export class DashboardComponent implements OnInit {
 
-  todos: Todo[] = [];
+  todos$: Observable<Todo[]>;
 
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
-    this.todoService.getTodos().subscribe(data => {
-      this.todos = data;
-    });
+    this.todos$ = this.todoService.getTodos();
   }
 
 }
