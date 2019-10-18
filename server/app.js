@@ -3,12 +3,20 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const uniqid = require('uniqid');
+const cors = require('cors');
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use('/', express.static(path.resolve(__dirname + '/../dist/todo-app')))
+
+app.get('/todo', (req, res) => {
+    fs.readFile('todos.json', (err, json) => {
+        res.send(json);
+    });
+});
 
 app.post('/todo', (req, res) => {
     addTodo(req.body['data'], (success) => {

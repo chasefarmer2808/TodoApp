@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './material/material.module'
 
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
+    HttpClientModule,
     MaterialModule
   ],
   providers: [],
