@@ -15,7 +15,14 @@ export class DashboardComponent implements OnInit {
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
-    this.todos$ = this.todoService.getTodos();
+    this.todos$ = this.todoService.todos;
+    this.todoService.loadAll();
+  }
+
+  toggleTodo(todo: Todo, checkEvent: Event, index: Number) {
+    console.log(index)
+    // todo.isDone = !todo.isDone
+    // this.todoService.update(todo);
   }
 
 }

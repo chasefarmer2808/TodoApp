@@ -19,7 +19,7 @@ app.get('/todo', (req, res) => {
 });
 
 app.post('/todo', (req, res) => {
-    addTodo(req.body['data'], (success) => {
+    addTodo(req.body, (success) => {
         if (success) {
             res.sendStatus(200);
         }
@@ -30,12 +30,13 @@ app.post('/todo', (req, res) => {
 });
 
 app.put('/todo', (req, res) => {
-    updateTodo(req.body['data'], (success) => {
-        if (success) {
-            res.sendStatus(200);
+    console.log(req.body)
+    updateTodo(req.body, (err, updatedTodo) => {
+        if (err) {
+            res.sendStatus(500);
         }
         else {
-            res.sendStatus(500);
+            res.send(updatedTodo);
         }
     });
 });
@@ -73,7 +74,14 @@ function updateTodo(todoObj, callback) {
             }
         }
 
-        commitTodos(todos, callback);
+        commitTodos(todos, (success) => {
+            if (success) {
+                callback(null, todoObj);
+            }
+            else {
+                callback('Error updating todo.');
+            }
+        });
     })
 }
 
