@@ -6,9 +6,17 @@
             </mat-card-header>
             <mat-card-content>
                 <div id="todo-item" *ngFor="let todo of todos$ | async; let i = index">
-                    <mat-checkbox [(ngModel)]="todo.isDone" (click)="toggleTodo(todo, $event, i)">{{i}}</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="todo.isDone" (click)="toggleTodo(todo, $event, i)"></mat-checkbox>
                     <div id="todo-name">{{todo.name}}</div>
                 </div>
+                <form id="todo-input" [formGroup]="todoForm" (submit)="addTodo(todoForm.value.name)" novalidate>
+                    <mat-form-field>
+                        <input matInput formControlName="name" placeholder="New item">
+                    </mat-form-field>
+                    <button type="submit" mat-icon-button color="primary" (keydown.enter)="addTodo()" [disabled]=todoForm.invalid>
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </form>
             </mat-card-content>
             <mat-card-actions id="todo-actions" align="end">
                 <button mat-fab color="primary">

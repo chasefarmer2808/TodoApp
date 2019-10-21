@@ -23,6 +23,13 @@ export class TodoService {
     }, error => console.log('Could not load todos.'));
   }
 
+  create(todo: Todo) {
+    this.httpClient.post<Todo>(`${this.baseUrl}`, todo).subscribe(data => {
+      this.dataStore.todos.push(data);
+      this._todos.next(Object.assign({}, this.dataStore).todos);
+    }, error => console.log('Could not create todo.'));
+  }
+
   update(todo: Todo) {
     console.log(todo)
     return this.httpClient.put<Todo>(`${this.baseUrl}`, todo).subscribe(data => {

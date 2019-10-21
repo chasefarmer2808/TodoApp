@@ -19,12 +19,12 @@ app.get('/todo', (req, res) => {
 });
 
 app.post('/todo', (req, res) => {
-    addTodo(req.body, (success) => {
-        if (success) {
-            res.sendStatus(200);
+    addTodo(req.body, (err, newTodo) => {
+        if (err) {
+            res.sendStatus(500);
         }
         else {
-            res.sendStatus(500);
+            res.send(newTodo);
         }
     })
 });
@@ -60,7 +60,14 @@ function addTodo(todoObj, callback) {
         todoObj['id'] = uniqid();
         todoObj['isDone'] = false;
         todos.push(todoObj);
-        commitTodos(todos, callback);
+        commitTodos(todos, (success) => {
+            if (success) {
+                callback(null, todoObj);
+            }
+            else {
+                callback('Error adding todo.');
+            }
+        });
     });
 }
 
