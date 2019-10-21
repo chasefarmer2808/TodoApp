@@ -30,7 +30,6 @@ app.post('/todo', (req, res) => {
 });
 
 app.put('/todo', (req, res) => {
-    console.log(req.body)
     updateTodo(req.body, (err, updatedTodo) => {
         if (err) {
             res.sendStatus(500);
