@@ -109,6 +109,8 @@ function commitTodos(todoJson, callback) {
         if (err) {
             callback(false);
         }
-        callback(true);
+        else {
+            callback(true);
+        }
     });
 }

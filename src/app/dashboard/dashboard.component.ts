@@ -40,4 +40,8 @@ export class DashboardComponent implements OnInit {
     this.todoService.update(todo);
   }
 
+  deleteTodo(todoId: string) {
+    this.todoService.delete(todoId);
+  }
+
 }

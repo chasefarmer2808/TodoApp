@@ -20,6 +20,11 @@
                 <div id="todo-item" *ngFor="let todo of doneTodos$ | async">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
                     <div id="todo-name">{{todo.name}}</div>
+                    <div class="right-align">
+                        <button class="right-align" id="delete-todo-btn" mat-icon-button (click)="deleteTodo(todo.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </mat-card-content>
         </mat-card>
