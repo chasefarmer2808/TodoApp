@@ -5,7 +5,7 @@
                 <mat-card-title>TODO List</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div id="todo-item" *ngFor="let todo of notDoneTodos$ | async">
+                <div id="todo-item" *ngFor="let todo of todos$ | async | todos:false">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
                     <div id="todo-name">{{todo.name}}</div>
                 </div>
@@ -17,7 +17,7 @@
                         <mat-icon>add</mat-icon>
                     </button>
                 </form>
-                <div id="todo-item" *ngFor="let todo of doneTodos$ | async">
+                <div id="todo-item" *ngFor="let todo of todos$ | async | todos">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
                     <div id="todo-name">{{todo.name}}</div>
                     <div class="right-align">

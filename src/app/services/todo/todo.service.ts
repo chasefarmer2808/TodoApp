@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Todo } from './todo';
-import { Response } from 'selenium-webdriver/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,13 +10,9 @@ import { environment } from 'src/environments/environment';
 })
 export class TodoService {
 
-  private _doneTodos = new BehaviorSubject<Todo[]>([]);
-  private _notDoneTodos = new BehaviorSubject<Todo[]>([]);
   private _todos = new BehaviorSubject<Todo[]>([]);
   private baseUrl = `http://localhost:${environment.todoApiPort}/todo`;
   private dataStore: { todos: Todo[] } = { todos: [] };
-  readonly doneTodos = this._doneTodos.asObservable();
-  readonly notDoneTodos = this._notDoneTodos.asObservable();
   readonly todos = this._todos.asObservable();
 
   constructor(private httpClient: HttpClient) { }
@@ -26,15 +21,12 @@ export class TodoService {
     this.httpClient.get<Todo[]>(`${this.baseUrl}`).subscribe(data => {
       this.dataStore.todos = data;
       this._todos.next(Object.assign({}, this.dataStore).todos);
-      this._doneTodos.next(Object.assign([], this.getDoneTodos(this.dataStore.todos)));
-      this._notDoneTodos.next(Object.assign([], this.getNotDoneTodos(this.dataStore.todos)))
     }, error => console.log('Could not load todos.'));
   }
 
   create(todo: Todo) {
     this.httpClient.post<Todo>(`${this.baseUrl}`, todo).subscribe(data => {
       this.dataStore.todos.push(data);
-      this._notDoneTodos.next(Object.assign([], this.getNotDoneTodos(this.dataStore.todos)))
     }, error => console.log('Could not create todo.'));
   }
 
@@ -47,8 +39,6 @@ export class TodoService {
       });
 
       this._todos.next(Object.assign({}, this.dataStore).todos);
-      this._doneTodos.next(Object.assign([], this.getDoneTodos(this.dataStore.todos)));
-      this._notDoneTodos.next(Object.assign([], this.getNotDoneTodos(this.dataStore.todos)))
     }, error => console.log('Could not update todo.'));
   }
 
@@ -65,15 +55,6 @@ export class TodoService {
         }
       })
       this._todos.next(Object.assign([], this.dataStore).todos);
-      this._doneTodos.next(Object.assign([], this.getDoneTodos(this.dataStore.todos)));
     })
-  }
-
-  private getDoneTodos(todos: Todo[]): Todo[] {
-    return todos.filter(todo => todo.isDone);
-  }
-
-  private getNotDoneTodos(todos: Todo[]): Todo[] {
-    return todos.filter(todo => !todo.isDone);
   }
 }

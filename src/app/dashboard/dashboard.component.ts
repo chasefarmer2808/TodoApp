@@ -5,9 +5,6 @@ import { Todo } from 'src/app/services/todo/todo';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
-import { from } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,8 +12,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit {
 
-  doneTodos$: Observable<Todo[]>;
-  notDoneTodos$: Observable<Todo[]>;
+  todos$: Observable<Todo[]>;
 
   todoForm = this.fb.group({
     name: ['', Validators.required]
@@ -25,8 +21,7 @@ export class DashboardComponent implements OnInit {
   constructor(private todoService: TodoService, private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.doneTodos$ = this.todoService.doneTodos;
-    this.notDoneTodos$ = this.todoService.notDoneTodos;
+    this.todos$ = this.todoService.todos;
     this.todoService.loadAll();
   }
 

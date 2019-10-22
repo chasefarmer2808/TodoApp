@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TodosPipe } from './pipes/todos.pipe';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -17,7 +18,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardComponent,
+    TodosPipe
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,9 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    TodosPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
