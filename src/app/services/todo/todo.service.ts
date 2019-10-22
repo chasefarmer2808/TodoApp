@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 import { Todo } from './todo';
 import { Response } from 'selenium-webdriver/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class TodoService {
   private _doneTodos = new BehaviorSubject<Todo[]>([]);
   private _notDoneTodos = new BehaviorSubject<Todo[]>([]);
   private _todos = new BehaviorSubject<Todo[]>([]);
-  private baseUrl = 'http://localhost:3000/todo';
+  private baseUrl = `http://localhost:${environment.todoApiPort}/todo`;
   private dataStore: { todos: Todo[] } = { todos: [] };
   readonly doneTodos = this._doneTodos.asObservable();
   readonly notDoneTodos = this._notDoneTodos.asObservable();

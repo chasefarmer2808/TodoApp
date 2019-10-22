@@ -13,7 +13,7 @@
                     <mat-form-field>
                         <input matInput formControlName="name" placeholder="New item">
                     </mat-form-field>
-                    <button type="submit" mat-icon-button color="primary" (keydown.enter)="addTodo()" [disabled]=todoForm.invalid>
+                    <button type="submit" mat-icon-button color="primary" (keydown.enter)="addTodo(todoForm.value.name)" [disabled]=todoForm.invalid>
                         <mat-icon>add</mat-icon>
                     </button>
                 </form>

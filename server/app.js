@@ -6,6 +6,13 @@ const uniqid = require('uniqid');
 const cors = require('cors');
 const app = express();
 const port = 3000;
+const file = 'todos.json';
+
+if (!fs.existsSync(file)) {
+    fs.writeFile(file, '[]', err => {
+        if (err) throw err;
+    });
+}
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -13,7 +20,7 @@ app.use(cors());
 app.use('/', express.static(path.resolve(__dirname + '/../dist/todo-app')))
 
 app.get('/todo', (req, res) => {
-    fs.readFile('todos.json', (err, json) => {
+    fs.readFile(file, (err, json) => {
         res.send(json);
     });
 });
@@ -54,7 +61,7 @@ app.delete('/todo/:id', (req, res) => {
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 function addTodo(todoObj, callback) {
-    fs.readFile('todos.json', (err, json) => {
+    fs.readFile(file, (err, json) => {
         var todos = JSON.parse(json);
         todoObj['id'] = uniqid();
         todoObj['isDone'] = false;
@@ -71,7 +78,7 @@ function addTodo(todoObj, callback) {
 }
 
 function updateTodo(todoObj, callback) {
-    fs.readFile('todos.json', (err, json) => {
+    fs.readFile(file, (err, json) => {
         var todos = JSON.parse(json);
 
         for (var i = 0; i < todos.length; i++) {
@@ -92,7 +99,7 @@ function updateTodo(todoObj, callback) {
 }
 
 function deleteTodo(todoId, callback) {
-    fs.readFile('todos.json', (err, json) => {
+    fs.readFile(file, (err, json) => {
         var todos = JSON.parse(json);
 
         for (var i = 0; i < todos.length; i++) {
@@ -105,7 +112,7 @@ function deleteTodo(todoId, callback) {
 }
 
 function commitTodos(todoJson, callback) {
-    fs.writeFile('todos.json', JSON.stringify(todoJson), err => {
+    fs.writeFile(file, JSON.stringify(todoJson), err => {
         if (err) {
             callback(false);
         }

@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
     this.todoForm.reset();
   }
 
-  toggleTodo(todo: Todo, checkEvent: MatCheckboxChange, index: number) {
+  toggleTodo(todo: Todo, checkEvent: MatCheckboxChange) {
     todo.isDone = checkEvent.checked;
     this.todoService.update(todo);
   }
