@@ -18,6 +18,12 @@ export class DashboardComponent implements OnInit {
     name: ['', Validators.required]
   });
 
+  updateTodoForm = this.fb.group({
+    name: ['']
+  });
+
+  editing: boolean = false;
+
   constructor(private todoService: TodoService, private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -37,6 +43,15 @@ export class DashboardComponent implements OnInit {
 
   deleteTodo(todoId: string) {
     this.todoService.delete(todoId);
+  }
+
+  updateTodoName(todo: Todo) {
+    let newName = this.updateTodoForm.controls['name'].value;
+
+    if (newName) {
+      todo.name = newName;
+      this.todoService.update(todo);
+    }
   }
 
 }

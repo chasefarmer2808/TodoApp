@@ -7,7 +7,12 @@
             <mat-card-content>
                 <div id="todo-item" *ngFor="let todo of todos$ | async | todos:false">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
-                    <div id="todo-name">{{todo.name}}</div>
+                    <!-- <div id="todo-name">{{todo.name}}</div> -->
+                    <form [formGroup]="updateTodoForm" novalidate>
+                        <mat-form-field>
+                            <input matInput formControlName="name" value="{{todo.name}}" (blur)="updateTodoName(todo)">
+                        </mat-form-field>    
+                    </form>
                 </div>
                 <form id="todo-input" [formGroup]="todoForm" (submit)="addTodo(todoForm.value.name)" novalidate>
                     <mat-form-field>
