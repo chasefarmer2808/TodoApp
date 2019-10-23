@@ -13,6 +13,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 export class DashboardComponent implements OnInit {
 
   todos$: Observable<Todo[]>;
+  oldTodoName: string;
+  editIndex: number;
 
   todoForm = this.fb.group({
     name: ['', Validators.required]
@@ -21,8 +23,6 @@ export class DashboardComponent implements OnInit {
   updateTodoForm = this.fb.group({
     name: ['']
   });
-
-  editing: boolean = false;
 
   constructor(private todoService: TodoService, private fb: FormBuilder) { }
 
@@ -46,12 +46,12 @@ export class DashboardComponent implements OnInit {
   }
 
   updateTodoName(todo: Todo) {
-    let newName = this.updateTodoForm.controls['name'].value;
+    this.todoService.update(todo);
+    this.oldTodoName = todo.name;
+  }
 
-    if (newName) {
-      todo.name = newName;
-      this.todoService.update(todo);
-    }
+  editingTodo(todo: Todo, currIndex: number): boolean {
+    return this.oldTodoName != todo.name && currIndex == this.editIndex;
   }
 
 }

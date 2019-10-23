@@ -5,11 +5,14 @@
                 <mat-card-title>TODO List</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <div id="todo-item" *ngFor="let todo of todos$ | async | todos:false">
+                <div id="todo-item" *ngFor="let todo of (todos$ | async | todos:false); let i = index">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
-                    <form [formGroup]="updateTodoForm" novalidate>
-                        <input id="todo-name-input" class="todo-name" formControlName="name" value="{{todo.name}}" (blur)="updateTodoName(todo)">
-                    </form>
+                    <input id="todo-name-input" class="todo-name" [(ngModel)]="todo.name" value="{{todo.name}}" (focus)="oldTodoName = todo.name; editIndex = i" (blur)="updateTodoName(todo)" (keydown.enter)="$event.target.blur()">
+                    <div class="right-align" *ngIf="editingTodo(todo, i)">
+                        <button class="right-align" mat-icon-button (click)="updateTodoName(todo)">
+                            <mat-icon>check</mat-icon>
+                        </button>
+                    </div>
                 </div>
                 <form id="todo-input" [formGroup]="todoForm" (submit)="addTodo(todoForm.value.name)" novalidate>
                     <mat-form-field class="todo-name">
@@ -23,7 +26,7 @@
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
                     <div class="todo-name">{{todo.name}}</div>
                     <div class="right-align">
-                        <button class="right-align" id="delete-todo-btn" mat-icon-button (click)="deleteTodo(todo.id)">
+                        <button id="delete-todo-btn" mat-icon-button (click)="deleteTodo(todo.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
