@@ -22,7 +22,11 @@
     margin: 8px;
 }
 
-#todo-name {
+#todo-name-input {
+    border: none;
+}
+
+.todo-name {
     margin-left: 8px;
     font-size: 24px;
 }

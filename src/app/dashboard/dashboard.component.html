@@ -7,15 +7,12 @@
             <mat-card-content>
                 <div id="todo-item" *ngFor="let todo of todos$ | async | todos:false">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
-                    <!-- <div id="todo-name">{{todo.name}}</div> -->
                     <form [formGroup]="updateTodoForm" novalidate>
-                        <mat-form-field>
-                            <input matInput formControlName="name" value="{{todo.name}}" (blur)="updateTodoName(todo)">
-                        </mat-form-field>    
+                        <input id="todo-name-input" class="todo-name" formControlName="name" value="{{todo.name}}" (blur)="updateTodoName(todo)">
                     </form>
                 </div>
                 <form id="todo-input" [formGroup]="todoForm" (submit)="addTodo(todoForm.value.name)" novalidate>
-                    <mat-form-field>
+                    <mat-form-field class="todo-name">
                         <input matInput formControlName="name" placeholder="New item">
                     </mat-form-field>
                     <button type="submit" mat-icon-button color="primary" (keydown.enter)="addTodo(todoForm.value.name)" [disabled]=todoForm.invalid>
@@ -24,7 +21,7 @@
                 </form>
                 <div id="todo-item" *ngFor="let todo of todos$ | async | todos">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
-                    <div id="todo-name">{{todo.name}}</div>
+                    <div class="todo-name">{{todo.name}}</div>
                     <div class="right-align">
                         <button class="right-align" id="delete-todo-btn" mat-icon-button (click)="deleteTodo(todo.id)">
                             <mat-icon>delete</mat-icon>
