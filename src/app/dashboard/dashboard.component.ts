@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   todos$: Observable<Todo[]>;
   oldTodoName: string;
   editIndex: number;
+  edittingName: boolean = false;
 
   todoForm = this.fb.group({
     name: ['', Validators.required]
@@ -48,10 +49,11 @@ export class DashboardComponent implements OnInit {
   updateTodoName(todo: Todo) {
     this.todoService.update(todo);
     this.oldTodoName = todo.name;
+    this.edittingName = false;
   }
 
   editingTodo(todo: Todo, currIndex: number): boolean {
-    return this.oldTodoName != todo.name && currIndex == this.editIndex;
+    return this.oldTodoName != todo.name && currIndex == this.editIndex && this.edittingName;
   }
 
 }

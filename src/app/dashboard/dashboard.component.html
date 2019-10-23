@@ -7,7 +7,7 @@
             <mat-card-content>
                 <div id="todo-item" *ngFor="let todo of (todos$ | async | todos:false); let i = index">
                     <mat-checkbox [(ngModel)]="todo.isDone" (change)="toggleTodo(todo, $event)"></mat-checkbox>
-                    <input id="todo-name-input" class="todo-name" [(ngModel)]="todo.name" value="{{todo.name}}" (focus)="oldTodoName = todo.name; editIndex = i" (blur)="updateTodoName(todo)" (keydown.enter)="$event.target.blur()">
+                    <input id="todo-name-input" class="todo-name" [(ngModel)]="todo.name" value="{{todo.name}}" (focus)="oldTodoName = todo.name; editIndex = i; edittingName=true" (blur)="updateTodoName(todo)" (keydown.enter)="$event.target.blur()">
                     <div class="right-align" *ngIf="editingTodo(todo, i)">
                         <button class="right-align" mat-icon-button (click)="updateTodoName(todo)">
                             <mat-icon>check</mat-icon>
